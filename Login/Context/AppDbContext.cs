@@ -16,7 +16,6 @@ public class AppDbContext : IdentityDbContext<IdentityUser<long>, IdentityRole<l
     public DbSet<Product> Product { get; set; }
     public DbSet<Client> Clients { get; set; }
     public DbSet<Order> Orders { get; set; }
-    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

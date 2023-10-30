@@ -26,8 +26,7 @@ public class MappingProfile : Profile
         CreateMap<Client, CreateClientDTO>().ForMember(p => p.Name, opt => opt.MapFrom(p => p.UserName))
             .ForMember(p => p.EmailAdress, opt => opt.MapFrom(p => p.Email)).ReverseMap();
 
-        CreateMap<User, UserDTO>().ReverseMap();
-      
+       
         CreateMap<Order, OrderDTO>().ReverseMap();
         
     }
