@@ -17,30 +17,10 @@ public class RegisterController : ControllerBase
         _registerService = tokenService;
     }
 
-    //[HttpPost("manager")]
-    //public async Task<IActionResult> RegisterManagerAsync(UserDTO user)
-    //{
-    //  var result = await _registerService.CreateManager(user);
-    //    if (result is null)
-    //    {
-    //        return BadRequest("F my man");
-    //    }
-    //    return Ok(result);
-    //}
-    //[HttpPost("seller")]
-    //public async Task<IActionResult> RegisterSellerAsync(UserDTO user)
-    //{
-    //    var result = await _registerService.CreateSeller(user);
-    //    if(result is null)
-    //    {
-    //        return BadRequest("Algo deu errado");
-    //    }
-    //    return Ok(result);
-    //}
-    [HttpPost("Client")]
+    [HttpPost()]
     public async Task<IActionResult> Register(CreateClientDTO user)
     {
-        var result = await _registerService.RegisterUser(user);
+        var result = await _registerService.RegisterClient(user);
         return Ok(result);
     }
 }

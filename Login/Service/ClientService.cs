@@ -59,20 +59,6 @@ public class ClientService : IClientService
         var client = _mapper.Map<ClientDTO>(result);
         return client;
     }
-    public async Task<ClientDTO> CreateClient(PostClientDTO entity)
-    {
-        var client = _mapper.Map<Client>(entity);
-
-        if (entity is null)
-        {
-            return null;
-        }
-        _unitOfWork._clientRepository.Add(client);
-        await _unitOfWork.Commit();
-        var clientDto = _mapper.Map<ClientDTO>(client);
-        return clientDto;
-
-    }
     public async Task<ClientDTO> PutClient(long id, ClientDTO entity)
     {
         var client = await _unitOfWork._clientRepository.GetByQuery(p => p.Id == id);
@@ -101,23 +87,5 @@ public class ClientService : IClientService
         await _unitOfWork.Commit();
         var clientDto = _mapper.Map<ClientDTO>(result);
         return clientDto;
-    }
-
-    public async Task<ProductDTO> CreateOrder(string name, int quant)
-    {
-        var product = await _unitOfWork._productRepository.GetByNameAsync(name);
-        if (product is null)
-        {
-            return null;
-        }
-        if (quant > product.stock)
-        {
-            return null;
-        }
-        product.stock -= quant;
-        _unitOfWork._productRepository.Update(product);
-        await _unitOfWork.Commit();
-        var productDto = _mapper.Map<ProductDTO>(product);
-        return productDto;
     }
 }

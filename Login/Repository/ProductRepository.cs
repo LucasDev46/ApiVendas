@@ -10,10 +10,5 @@ namespace Loja.Repository
         public ProductRepository(AppDbContext context) : base(context)
         {
         }
-
-        public async Task<Product> GetByNameAsync(string name)
-        {
-            return await Get().FirstOrDefaultAsync(p => p.Name == name);
-        }
     }
 }

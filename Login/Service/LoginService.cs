@@ -51,7 +51,7 @@ public class LoginService : ILoginService
 
         IList<string> userRoles = await _userManager.GetRolesAsync(findUser);
         var claims = new List<Claim>();
-        foreach (string role in userRoles)
+        foreach (var role in userRoles)
         {
             claims.Add(new Claim(ClaimTypes.Role, role));
         }

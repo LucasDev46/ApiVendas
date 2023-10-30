@@ -65,14 +65,14 @@ public class CategoryService : ICategoryService
         return teste;
     }
 
-    public async Task<CategoryDTO> PutCategory(long id, CategoryDTO postCategoryDto)
+    public async Task<CategoryDTO> PutCategory(long id, CategoryDTO categoryDto)
     {
-        var category = _mapper.Map<Category>(postCategoryDto);
-        if (id != category.CategoryId)
+        if (id != categoryDto.CategoryId)
         {
             return null;
         }
-        
+        var category = _mapper.Map<Category>(categoryDto);
+         
         _unitOfWork._categoryRepository.Update(category);
         await _unitOfWork.Commit();
         var categoryDTO = _mapper.Map<CategoryDTO>(category);

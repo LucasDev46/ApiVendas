@@ -22,7 +22,4 @@ public class Client : IdentityUser<long>
     {
         Order = new List<Order>();
     }
-    // public string? Password { get; set; }
-    //[Compare("Password")]
-    //public string? ConfirmPassword { get; set; }
 }

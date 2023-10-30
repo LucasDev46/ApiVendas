@@ -55,16 +55,6 @@ namespace Loja.Controllers
             }
             return Ok(result);
         }
-        [HttpPost]
-        public async Task<ActionResult<ClientDTO>> PostAsync(PostClientDTO client)
-        {
-            var result = await _clientService.CreateClient(client);
-            if (result is null)
-            {
-                return BadRequest();
-            }
-            return Ok(result);
-        }
         [HttpPut]
         public async Task<IActionResult> PutAsync(long id, ClientDTO client)
         {
@@ -85,15 +75,5 @@ namespace Loja.Controllers
             }
             return Ok(result);
         }
-        //[HttpPost("order")]
-        //public async Task<IActionResult> ClientOrderAsync(string name, int quant)
-        //{
-        //    var result = await _clientService.CreateOrder(name, quant);
-        //    if (result is null)
-        //    {
-        //        return BadRequest("pediu demais ou o produto nao existe meu parça");
-        //    }
-        //    return Ok(result);
-        //}
     }
 }

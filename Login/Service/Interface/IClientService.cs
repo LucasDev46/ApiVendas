@@ -5,9 +5,7 @@ public interface IClientService
     Task<IEnumerable<ClientDTO>> GetAllClient();
     Task<IEnumerable<ClientOrderDTO>> GetClientOrders();
     Task<ClientDTO> GetClientById(long id);
-    Task<ClientDTO> CreateClient(PostClientDTO entity);
     Task<ClientDTO> PutClient(long id, ClientDTO entity);
     Task<ClientDTO> DeleteClient(long id);
     Task<ClientDTO> GetByCNPJ(string Cnpj);
-    //Task<ProductDTO> CreateOrder(string name, int quant);
 }
