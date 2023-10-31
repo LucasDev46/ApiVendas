@@ -31,7 +31,7 @@ namespace Loja.Repository
 
         public Task<T> GetByQuery(Expression<Func<T, bool>> predicate)
         {
-            return   _context.Set<T>().SingleOrDefaultAsync(predicate);
+            return   _context.Set<T>().FirstOrDefaultAsync(predicate);
         }
 
         public void Update(T entity)

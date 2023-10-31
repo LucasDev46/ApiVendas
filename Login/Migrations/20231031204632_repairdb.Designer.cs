@@ -3,6 +3,7 @@ using System;
 using Loja.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Loja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231031204632_repairdb")]
+    partial class repairdb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,14 +134,14 @@ namespace Loja.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "3d49bb5a-fb2a-43ab-8bef-418e9c5f3a7e",
+                            ConcurrencyStamp = "7cf3f713-a711-4e70-8fc0-64849c79f243",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
                             Id = 2L,
-                            ConcurrencyStamp = "7bd2a3fc-bca5-455c-b2d2-a6aa658af034",
+                            ConcurrencyStamp = "8e7081de-a38c-4b53-ba01-e53184bb1546",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });

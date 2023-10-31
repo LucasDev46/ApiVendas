@@ -8,7 +8,7 @@ namespace Loja.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "Manager")]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _clientService;
