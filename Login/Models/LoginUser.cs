@@ -1,7 +1,10 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace Loja.Models;
 public class LoginUser
 {
-    public string UserName { get; set; }
+    [EmailAddress]
+    public string Email { get; set; }
     public string Password { get; set; }
 }

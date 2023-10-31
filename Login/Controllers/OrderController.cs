@@ -1,5 +1,7 @@
 ﻿using Loja.Dtos.OrderMapper;
+using Loja.Errors;
 using Loja.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,33 +19,36 @@ namespace Loja.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetAsync()
+        [Authorize(Roles = "Manager")]
+        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetAllAsync()
         {
             var result = await _orderService.GetAllOrder();
             if (result is null)
             {
-                return BadRequest();
+                return BadRequest(new ResultError { Sucess = false, Message = "Error" });
             }
             return Ok(result);
         }
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetByIdAsync(long id)
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> GetOrderByIdAsync(long id)
         {
             var result = await _orderService.GetOrderById(id);
             if (result is null)
             {
-                return BadRequest();
+                return BadRequest(new ResultError { Sucess = false, Message = "Error" });
             }
             return Ok(result);
         }
    
         [HttpPost]
+        [Authorize(Roles = "Manager, Client")]
         public async Task<IActionResult> CreateOrderAsync(string client, int product, int quant)
         {
             var result = await _orderService.CreateOrder(client, product, quant);
             if (result is null)
             {
-                return BadRequest("hmm, sei nao em");
+                return BadRequest(new ResultError { Sucess = false, Message = "Error" });
             }
             return Ok(result);
         }

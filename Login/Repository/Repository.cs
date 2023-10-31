@@ -7,7 +7,7 @@ namespace Loja.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected AppDbContext _context;
+        private readonly AppDbContext _context;
 
         public Repository(AppDbContext context)
         {
@@ -24,14 +24,14 @@ namespace Loja.Repository
             _context.Set<T>().Remove(entity);
         }
 
-        public IQueryable<T> Get()
+        public IQueryable<T> GetAll()
         {
             return _context.Set<T>().AsNoTracking();
         }
 
-        public async Task<T> GetByQuery(Expression<Func<T, bool>> predicate)
+        public Task<T> GetByQuery(Expression<Func<T, bool>> predicate)
         {
-            return  await _context.Set<T>().SingleOrDefaultAsync(predicate);
+            return   _context.Set<T>().SingleOrDefaultAsync(predicate);
         }
 
         public void Update(T entity)

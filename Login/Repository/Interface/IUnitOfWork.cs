@@ -4,7 +4,7 @@ public interface IUnitOfWork
 {
     ICategoryRepository _categoryRepository { get; }
     IProductRepository _productRepository { get; }
-    IClientRepository _clientRepository { get; }
+    ICustomerRepository _customerRepository { get; }
     IOrderRepository _orderRepository { get; }
     Task Commit();
 }

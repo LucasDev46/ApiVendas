@@ -7,7 +7,7 @@ public class UnitOfWork : IUnitOfWork
 {
     public CategoryRepository categoryRepository { get; set; }
     public ProductRepository productRepository { get; set; }
-    public ClientRepository clientRepository { get; set; }
+    public CustomerRepository customerRepository { get; set; }
     public OrderRepository orderRepository { get; set; }
     public AppDbContext _context { get; set; }
 
@@ -15,11 +15,11 @@ public class UnitOfWork : IUnitOfWork
     {
         _context = context;
     }
-    public IClientRepository _clientRepository
+    public ICustomerRepository _customerRepository
     {
         get
         {
-            return clientRepository = clientRepository ?? new ClientRepository(_context);
+            return customerRepository = customerRepository ?? new CustomerRepository(_context);
         }
     }
     public ICategoryRepository _categoryRepository 

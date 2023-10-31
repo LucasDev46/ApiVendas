@@ -25,12 +25,12 @@ public class LoginService : ILoginService
 
     public async Task<UserTokenDTO> Login(LoginUser login)
     {
-        var result = await _userManager.FindByNameAsync(login.UserName);
+        var result = await _userManager.FindByEmailAsync(login.Email);
         if (result is null)
         {
             return null;
         }
-        var check = await _signInManager.PasswordSignInAsync(login.UserName, login.Password, isPersistent: false, lockoutOnFailure: false);
+         var check = await _signInManager.PasswordSignInAsync(result, login.Password, isPersistent: false, lockoutOnFailure: false);
 
         if (!check.Succeeded) {
             return null;
@@ -47,7 +47,7 @@ public class LoginService : ILoginService
         var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var expiration = DateTime.UtcNow.AddHours(double.Parse(_config["TokenConfig:HourExpiration"]));
 
-        var findUser = await _userManager.FindByNameAsync(user.UserName);
+        var findUser = await _userManager.FindByEmailAsync(user.Email);
 
         IList<string> userRoles = await _userManager.GetRolesAsync(findUser);
         var claims = new List<Claim>();

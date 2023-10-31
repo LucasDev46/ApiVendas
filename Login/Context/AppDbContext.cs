@@ -14,14 +14,14 @@ public class AppDbContext : IdentityDbContext<IdentityUser<long>, IdentityRole<l
 
     public DbSet<Category> Category { get; set; }
     public DbSet<Product> Product { get; set; }
-    public DbSet<Client> Clients { get; set; }
+    public DbSet<Customer> Customer { get; set; }
     public DbSet<Order> Orders { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
-       modelBuilder.Entity<Client>().ToTable(nameof(Client));
+        modelBuilder.Entity<Customer>().ToTable(nameof(Customer));
 
 
     }

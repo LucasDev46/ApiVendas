@@ -12,7 +12,7 @@ public class Order
     public DateTime Date { get; set; } = DateTime.UtcNow;
     [Required]
     [JsonIgnore]
-    public Client Client { get; set; }
+    public Customer Client { get; set; }
     public long ClientId { get; set; }
     public long ProductId { get; set; }
     public ICollection<Product> Products { get; set; }

@@ -1,5 +1,7 @@
 ﻿using Loja.Dtos.ClientMapper;
+using Loja.Errors;
 using Loja.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -18,9 +20,14 @@ public class RegisterController : ControllerBase
     }
 
     [HttpPost()]
-    public async Task<IActionResult> Register(CreateClientDTO user)
+    [AllowAnonymous]
+    public async Task<IActionResult> Register(CreateCustomerDTO user)
     {
         var result = await _registerService.RegisterClient(user);
+        if(result is null)
+        {
+            return BadRequest(new ResultError { Sucess = false, Message = "Error" });
+        }
         return Ok(result);
     }
 }

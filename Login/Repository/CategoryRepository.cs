@@ -14,7 +14,7 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
 
     public async Task<IEnumerable<Category>> GetCategoryProduct()
     {
-        return await Get().Include(x => x.Products).ToListAsync();
+        return await GetAll().Include(x => x.Products).ToListAsync();
       
     }
 }

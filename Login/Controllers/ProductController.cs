@@ -1,6 +1,7 @@
 ﻿using Loja.Dtos.ProductMapper;
 using Loja.Errors;
 using Loja.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Loja.Controllers
@@ -36,20 +37,22 @@ namespace Loja.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProductDTO>> PostAsync(PostProductDTO productDTO)
+        [Authorize(Roles = "Manager")]
+        public async Task<ActionResult<ProductDTO>> CreateProduct(PostProductDTO productDTO)
         {
-            var product = await _productService.PostProduct(productDTO);
+            var product = await _productService.CreateProduct(productDTO);
             if (product is null)
             {
-                return BadRequest(new ResultError { Sucess = false, Message = $"Error my men" });
+                return BadRequest(new ResultError { Sucess = false, Message = "Error my men" });
             }
             return new CreatedAtRouteResult("ProductById", new { id = product.ProductId }, product); ;
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<ProductDTO>> PutAsync(long id, ProductDTO productDto)
+        [Authorize(Roles = "Manager")]
+        public async Task<ActionResult<ProductDTO>> UpdateProduct(long id, ProductDTO productDto)
         {
-            var product = await _productService.PutProduct(id, productDto);
+            var product = await _productService.UpdateProduct(id, productDto);
             if (product is null)
             {
                 return BadRequest(new ResultError { Sucess = false, Message = $"Product ID {id} Not Found" });
@@ -58,6 +61,7 @@ namespace Loja.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult<ProductDTO>> DeleteAsync(long id)
         {
             var product = await _productService.DeleteProduct(id);

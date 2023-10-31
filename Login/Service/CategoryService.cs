@@ -20,7 +20,7 @@ public class CategoryService : ICategoryService
 
     public async Task<IEnumerable<CategoryDTO>> GetAllCategory()
     {
-        var CategoryDTOs = await _unitOfWork._categoryRepository.Get().ToListAsync();
+        var CategoryDTOs = await _unitOfWork._categoryRepository.GetAll().ToListAsync();
         if (CategoryDTOs is null)
         {
             return Enumerable.Empty<CategoryDTO>();
@@ -52,7 +52,7 @@ public class CategoryService : ICategoryService
         return CategoryDTO;
     }
 
-    public async Task<CategoryDTO> PostCategory(PostCategoryDTO categoryDto)
+    public async Task<CategoryDTO> CreateCategory(PostCategoryDTO categoryDto)
     {
         var category = _mapper.Map<Category>(categoryDto);
         if (category is null)
@@ -65,7 +65,7 @@ public class CategoryService : ICategoryService
         return teste;
     }
 
-    public async Task<CategoryDTO> PutCategory(long id, CategoryDTO categoryDto)
+    public async Task<CategoryDTO> UpdateCategory(long id, CategoryDTO categoryDto)
     {
         if (id != categoryDto.CategoryId)
         {
@@ -75,8 +75,7 @@ public class CategoryService : ICategoryService
          
         _unitOfWork._categoryRepository.Update(category);
         await _unitOfWork.Commit();
-        var categoryDTO = _mapper.Map<CategoryDTO>(category);
-        return categoryDTO;
+        return categoryDto;
     }
 
     public async Task<CategoryDTO> DeleteCategory(long id)

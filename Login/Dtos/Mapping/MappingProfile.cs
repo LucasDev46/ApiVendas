@@ -3,7 +3,7 @@ using Loja.Dtos.CategoryMapper;
 using Loja.Dtos.ClientMapper;
 using Loja.Dtos.OrderMapper;
 using Loja.Dtos.ProductMapper;
-using Loja.Dtos.UserMapper;
+
 using Loja.Models;
 
 namespace Loja.Dtos.Mapping;
@@ -20,10 +20,10 @@ public class MappingProfile : Profile
         CreateMap<Category, CategoryProductDTO>().ReverseMap();
         CreateMap<Category, PostCategoryDTO>().ReverseMap();
 
-        CreateMap<Client, ClientDTO>().ReverseMap();
-        CreateMap<Client, PostClientDTO>().ReverseMap();
-        CreateMap<Client, ClientOrderDTO>().ReverseMap();
-        CreateMap<Client, CreateClientDTO>().ForMember(p => p.Name, opt => opt.MapFrom(p => p.UserName))
+        CreateMap<Customer, CustomerDTO>().ForMember(p => p.Id, opt => opt.MapFrom(p => p.Id)).ReverseMap();
+        CreateMap<Customer, PostCustomerDTO>().ReverseMap();
+        CreateMap<Customer, CustomerOrderDTO>().ReverseMap();
+        CreateMap<Customer, CreateCustomerDTO>().ForMember(p => p.Name, opt => opt.MapFrom(p => p.UserName))
             .ForMember(p => p.EmailAdress, opt => opt.MapFrom(p => p.Email)).ReverseMap();
 
        

@@ -4,7 +4,7 @@ namespace Loja.Repository.Interface;
 
 public interface IRepository<T>
 {
-    IQueryable<T> Get();
+    IQueryable<T> GetAll();
     Task<T> GetByQuery(Expression<Func<T, bool>> predicate);
     void Add(T entity);
     void Update(T entity);

@@ -131,28 +131,14 @@ namespace Loja.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "5ecdf026-6db1-4fbc-b041-0c87822be8ab",
+                            ConcurrencyStamp = "7620e1da-7116-411b-a2b2-9d4a0d3ea1df",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
                             Id = 2L,
-                            ConcurrencyStamp = "e35b8ae2-508d-4b36-9a0a-b739070f72eb",
-                            Name = "Seller",
-                            NormalizedName = "SELLER"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            ConcurrencyStamp = "28031d16-7b99-45a5-bca8-1af26c7b0a7d",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            ConcurrencyStamp = "105dfe47-1112-4861-ad8b-f74012d81824",
+                            ConcurrencyStamp = "2b1dd1c6-0bb3-412b-b856-d68053c02afe",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
@@ -339,7 +325,7 @@ namespace Loja.Migrations
                     b.ToTable("OrderProduct");
                 });
 
-            modelBuilder.Entity("Loja.Models.Client", b =>
+            modelBuilder.Entity("Loja.Models.Customer", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser<long>");
 
@@ -356,12 +342,12 @@ namespace Loja.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.ToTable("Client", (string)null);
+                    b.ToTable("Customer", (string)null);
                 });
 
             modelBuilder.Entity("Loja.Models.Order", b =>
                 {
-                    b.HasOne("Loja.Models.Client", "Client")
+                    b.HasOne("Loja.Models.Customer", "Client")
                         .WithMany("Order")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -447,11 +433,11 @@ namespace Loja.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Loja.Models.Client", b =>
+            modelBuilder.Entity("Loja.Models.Customer", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<long>", null)
                         .WithOne()
-                        .HasForeignKey("Loja.Models.Client", "Id")
+                        .HasForeignKey("Loja.Models.Customer", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -461,7 +447,7 @@ namespace Loja.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Loja.Models.Client", b =>
+            modelBuilder.Entity("Loja.Models.Customer", b =>
                 {
                     b.Navigation("Order");
                 });

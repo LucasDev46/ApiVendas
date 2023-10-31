@@ -18,9 +18,9 @@ public class RegisterService : IRegisterService
         _mapper = mapper;
     }
 
-    public async Task<ClientDTO> RegisterClient(CreateClientDTO user)
+    public async Task<CustomerDTO> RegisterClient(CreateCustomerDTO user)
     {
-        var clientEntity = _mapper.Map<Client>(user);
+        var clientEntity = _mapper.Map<Customer>(user);
         var result = await _userManager.CreateAsync(clientEntity, user.Password);
 
             if (result.Succeeded)
@@ -32,7 +32,7 @@ public class RegisterService : IRegisterService
                 }
             }
           
-        var clientDto = _mapper.Map<ClientDTO>(clientEntity);
+        var clientDto = _mapper.Map<CustomerDTO>(clientEntity);
         return clientDto;
     }
 }

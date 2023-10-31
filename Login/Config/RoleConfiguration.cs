@@ -20,18 +20,6 @@ namespace Loja.Config
                 new IdentityRole<long>
                 {
                     Id = 2,
-                    Name = "Seller",
-                    NormalizedName = "SELLER"
-                },
-                new IdentityRole<long>
-                {
-                    Id = 3,
-                    Name = "Admin",
-                    NormalizedName = "ADMIN"
-                },
-                new IdentityRole<long>
-                {
-                    Id = 4,
                     Name = "Client",
                     NormalizedName = "CLIENT"
                 }

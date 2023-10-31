@@ -4,5 +4,5 @@ namespace Loja.Service.Interface;
 public interface IRegisterService
 {
     
-    Task<ClientDTO> RegisterClient(CreateClientDTO user);
+    Task<CustomerDTO> RegisterClient(CreateCustomerDTO user);
 }
