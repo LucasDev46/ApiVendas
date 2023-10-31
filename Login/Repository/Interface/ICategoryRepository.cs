@@ -4,5 +4,5 @@ namespace Loja.Repository.Interface;
 
 public interface ICategoryRepository : IRepository<Category>
 {
-    Task<IEnumerable<Category>> GetCategoryProduct();
+    Task<IEnumerable<Category>> SelectAllCategoryProduct();
 }

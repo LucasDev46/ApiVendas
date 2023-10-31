@@ -14,7 +14,7 @@ namespace Loja.Repository
             _context = context;
         }
 
-        public void Add(T entity)
+        public void Insert(T entity)
         {
             _context.Set<T>().Add(entity);
         }
@@ -24,12 +24,12 @@ namespace Loja.Repository
             _context.Set<T>().Remove(entity);
         }
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> SelectAll()
         {
             return _context.Set<T>().AsNoTracking();
         }
 
-        public Task<T> GetByQuery(Expression<Func<T, bool>> predicate)
+        public Task<T> SelectByQuery(Expression<Func<T, bool>> predicate)
         {
             return   _context.Set<T>().FirstOrDefaultAsync(predicate);
         }

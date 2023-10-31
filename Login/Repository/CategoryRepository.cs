@@ -12,9 +12,9 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
     }
 
-    public async Task<IEnumerable<Category>> GetCategoryProduct()
+    public async Task<IEnumerable<Category>> SelectAllCategoryProduct()
     {
-        return await GetAll().Include(x => x.Products).ToListAsync();
+        return await SelectAll().Include(x => x.Products).ToListAsync();
       
     }
 }

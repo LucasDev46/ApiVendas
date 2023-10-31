@@ -22,7 +22,7 @@ public class CustomerService : ICustomerService
 
     public async Task<IEnumerable<CustomerDTO>> GetAllCustomer()
     {
-        var result = await _unitOfWork._customerRepository.GetAll().ToListAsync();
+        var result = await _unitOfWork._customerRepository.SelectAll().ToListAsync();
         if (result is null)
         {
             return null;
@@ -32,14 +32,14 @@ public class CustomerService : ICustomerService
     }
     public async Task<IEnumerable<CustomerOrderDTO>> GetCustomerOrders()
     {
-        var result = await _unitOfWork._customerRepository.GetAll().Include(p => p.Order).ThenInclude(p => p.Products).ToListAsync();
+        var result = await _unitOfWork._customerRepository.SelectAll().Include(p => p.Order).ThenInclude(p => p.Products).ToListAsync();
         var clienteDto = _mapper.Map<List<CustomerOrderDTO>>(result);
         return clienteDto;
     }
 
     public async Task<CustomerDTO> GetCustomerByCNPJ(string Cnpj)
     {
-        var result = await _unitOfWork._customerRepository.GetByQuery(p => p.CNPJ == Cnpj);
+        var result = await _unitOfWork._customerRepository.SelectByQuery(p => p.CNPJ == Cnpj);
         if (result is null)
         {
             return null;
@@ -50,7 +50,7 @@ public class CustomerService : ICustomerService
 
     public async Task<CustomerDTO> GetCustomerById(long id)
     {
-        var result = await _unitOfWork._customerRepository.GetByQuery(p => p.Id == id);
+        var result = await _unitOfWork._customerRepository.SelectByQuery(p => p.Id == id);
        
         if (result is null)
         {
@@ -61,7 +61,7 @@ public class CustomerService : ICustomerService
     }
     public async Task<CustomerDTO> UpdateCustomer(long id, CustomerDTO entity)
     {
-        var client = await _unitOfWork._customerRepository.GetByQuery(p => p.Id == id);
+        var client = await _unitOfWork._customerRepository.SelectByQuery(p => p.Id == id);
       
         if(client is null)
         {
@@ -77,7 +77,7 @@ public class CustomerService : ICustomerService
     }
     public async Task<CustomerDTO> DeleteCustomer(long id)
     {
-        var result = await _unitOfWork._customerRepository.GetByQuery(p => p.Id == id);
+        var result = await _unitOfWork._customerRepository.SelectByQuery(p => p.Id == id);
         if (result is null)
         {
             return null;

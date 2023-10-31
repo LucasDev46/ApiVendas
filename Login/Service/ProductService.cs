@@ -19,7 +19,7 @@ public class ProductService : IProductService
 
     public async Task<IEnumerable<ProductDTO>> GetAllProduct()
     {
-        var products = await _unitOfWork._productRepository.GetAll().ToListAsync();
+        var products = await _unitOfWork._productRepository.SelectAll().ToListAsync();
         if (products is null)
         {
             return Enumerable.Empty<ProductDTO>();
@@ -30,7 +30,7 @@ public class ProductService : IProductService
 
     public async Task<ProductDTO> GetProductById(long id)
     {
-        var product = await _unitOfWork._productRepository.GetByQuery(p => p.ProductId == id);
+        var product = await _unitOfWork._productRepository.SelectByQuery(p => p.ProductId == id);
         if (product is null)
         {
             return null;
@@ -46,7 +46,7 @@ public class ProductService : IProductService
         {
             return null;
         }
-        _unitOfWork._productRepository.Add(product);
+        _unitOfWork._productRepository.Insert(product);
         await _unitOfWork.Commit();
         var productDto = _mapper.Map<ProductDTO>(product);
         return productDto;
@@ -67,7 +67,7 @@ public class ProductService : IProductService
     }
     public async Task<ProductDTO> DeleteProduct(long id)
     {
-        var product = await _unitOfWork._productRepository.GetByQuery(c => c.ProductId == id);
+        var product = await _unitOfWork._productRepository.SelectByQuery(c => c.ProductId == id);
         if (product is null)
         {
             return null;
