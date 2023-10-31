@@ -43,9 +43,9 @@ public class LoginService : ILoginService
 
     private async Task<UserTokenDTO> GenerateTokenString(LoginUser user)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["jwt:key"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecuritySymmetricKey"]));
         var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expiration = DateTime.UtcNow.AddHours(double.Parse(_config["TokenConfig:HourExpiration"]));
+        var expiration = DateTime.UtcNow.AddHours(8);
 
         var findUser = await _userManager.FindByEmailAsync(user.Email);
 

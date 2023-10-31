@@ -25,7 +25,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var ConnectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(ConnectionString,
     ServerVersion.AutoDetect(ConnectionString)));
 
@@ -46,7 +46,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            ValidateIssuerSigningKey = true,
            ValidAudience = builder.Configuration["TokenConfig:Audience"],
            ValidIssuer = builder.Configuration["TokenConfig:Issuer"],
-           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwt:key"]))
+           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SecuritySymmetricKey"]))
        });
 
 
