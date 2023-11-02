@@ -40,12 +40,12 @@ namespace Loja.Controllers
             }
             return Ok(result);
         }
-   
+
         [HttpPost]
         [Authorize(Roles = "Manager, Client")]
-        public async Task<IActionResult> CreateOrderAsync(string client, int product, int quant)
+        public async Task<IActionResult> CreateOrderAsync(OrderDTO order)
         {
-            var result = await _orderService.CreateOrder(client, product, quant);
+            var result = await _orderService.CreateOrder(order);
             if (result is null)
             {
                 return BadRequest(new ResultError { Sucess = false, Message = "Error" });

@@ -16,22 +16,22 @@ public class OrderService : IOrderService
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-    } 
+    }
 
     public async Task<IEnumerable<OrderDTO>> GetAllOrder()
     {
-        var orders = await _unitOfWork._orderRepository.SelectAll().Include(p => p.Client).Include(p => p.Products).ToListAsync();
+        var orders = await _unitOfWork._orderRepository.SelectAllOrder();
         if (orders is null)
         {
             return null;
-        }      
+        }
         var ordersDto = _mapper.Map<List<OrderDTO>>(orders);
         return ordersDto;
     }
 
     public async Task<OrderDTO> GetOrderById(long id)
     {
-        var order = await _unitOfWork._orderRepository.SelectAll().Include(p => p.Client).Include(o => o.Products).FirstOrDefaultAsync(p => p.OrderId == id);
+        var order = await _unitOfWork._orderRepository.SelectAll().Include(p => p.Customer).Include(o => o.ProductOrder).FirstOrDefaultAsync(p => p.OrderId == id);
         if (order is null)
         {
             return null;
@@ -41,32 +41,23 @@ public class OrderService : IOrderService
         return orderDto;
     }
 
-    public async Task<OrderDTO> CreateOrder(string cnpj, long productId, int quant)
+    public async Task<OrderDTO> CreateOrder(OrderDTO order)
     {
-        var client = await _unitOfWork._customerRepository.SelectByQuery(p => p.CNPJ == cnpj);
-        var product = await _unitOfWork._productRepository.SelectByQuery(p => p.ProductId == productId);
-        
-        if (product is null || client is null)
+        var entity = _mapper.Map<Order>(order);
+        if (entity is null)
         {
             return null;
         }
-        var order = new Order
+        foreach (var item in order.ProductOrder)
         {
-            Client = client,
-            Date = DateTime.UtcNow,
-            Quantity = quant,
-            TotalValue = product.Price * quant,
-            ProductId = productId
-        };
-        order.Products.Add(product);
-        client.Order.Add(order);
-        product.stock -= quant;
+            var product = await _unitOfWork._productRepository.SelectByQuery(p => p.ProductId == item.ProductId);
+            entity.TotalValue += product.Price * item.Quantity;
+            product.stock -= item.Quantity;
+            _unitOfWork._productRepository.Update(product);
+        }
 
-        _unitOfWork._productRepository.Update(product);
-        _unitOfWork._customerRepository.Update(client);
-        _unitOfWork._orderRepository.Insert(order);
+        _unitOfWork._orderRepository.Insert(entity);
         await _unitOfWork.Commit();
-        var orderDto = _mapper.Map<OrderDTO>(order);
-        return orderDto;
+        return order;
     }
 }

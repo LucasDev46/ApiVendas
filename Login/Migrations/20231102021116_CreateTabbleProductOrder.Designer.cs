@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Loja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231031205016_reloadingbd")]
-    partial class reloadingbd
+    [Migration("20231102021116_CreateTabbleProductOrder")]
+    partial class CreateTabbleProductOrder
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,24 +48,18 @@ namespace Loja.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<long>("ClientId")
+                    b.Property<long>("CustomerId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalValue")
                         .HasColumnType("decimal(10,2)");
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
                 });
@@ -104,6 +98,30 @@ namespace Loja.Migrations
                     b.ToTable("Product");
                 });
 
+            modelBuilder.Entity("Loja.Models.ProductOrder", b =>
+                {
+                    b.Property<long>("ProductOrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductOrderId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductOrder");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<long>", b =>
                 {
                     b.Property<long>("Id")
@@ -134,14 +152,14 @@ namespace Loja.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "3d49bb5a-fb2a-43ab-8bef-418e9c5f3a7e",
+                            ConcurrencyStamp = "75d20d57-9800-417e-85c1-74e1d79eb481",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
                             Id = 2L,
-                            ConcurrencyStamp = "7bd2a3fc-bca5-455c-b2d2-a6aa658af034",
+                            ConcurrencyStamp = "da269994-2cb5-4683-bb40-641b69c79a17",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
@@ -313,21 +331,6 @@ namespace Loja.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.Property<long>("OrderId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProductsProductId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("OrderId", "ProductsProductId");
-
-                    b.HasIndex("ProductsProductId");
-
-                    b.ToTable("OrderProduct");
-                });
-
             modelBuilder.Entity("Loja.Models.Customer", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser<long>");
@@ -350,13 +353,13 @@ namespace Loja.Migrations
 
             modelBuilder.Entity("Loja.Models.Order", b =>
                 {
-                    b.HasOne("Loja.Models.Customer", "Client")
+                    b.HasOne("Loja.Models.Customer", "Customer")
                         .WithMany("Order")
-                        .HasForeignKey("ClientId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Loja.Models.Product", b =>
@@ -368,6 +371,25 @@ namespace Loja.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Loja.Models.ProductOrder", b =>
+                {
+                    b.HasOne("Loja.Models.Order", "Order")
+                        .WithMany("ProductOrder")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Loja.Models.Product", "Product")
+                        .WithMany("Order")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -421,21 +443,6 @@ namespace Loja.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.HasOne("Loja.Models.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Loja.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Loja.Models.Customer", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<long>", null)
@@ -448,6 +455,16 @@ namespace Loja.Migrations
             modelBuilder.Entity("Loja.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Loja.Models.Order", b =>
+                {
+                    b.Navigation("ProductOrder");
+                });
+
+            modelBuilder.Entity("Loja.Models.Product", b =>
+                {
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Loja.Models.Customer", b =>

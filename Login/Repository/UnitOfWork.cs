@@ -10,6 +10,7 @@ public class UnitOfWork : IUnitOfWork
     public CustomerRepository customerRepository { get; set; }
     public OrderRepository orderRepository { get; set; }
     public AppDbContext _context { get; set; }
+    public ProductOrderRepository productOrderRepository { get; set; }
 
     public UnitOfWork(AppDbContext context)
     {
@@ -22,13 +23,13 @@ public class UnitOfWork : IUnitOfWork
             return customerRepository = customerRepository ?? new CustomerRepository(_context);
         }
     }
-    public ICategoryRepository _categoryRepository 
-    { 
-        get 
+    public ICategoryRepository _categoryRepository
+    {
+        get
         {
 
             return categoryRepository = categoryRepository ?? new CategoryRepository(_context);
-        } 
+        }
     }
 
     public IProductRepository _productRepository
@@ -47,9 +48,17 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
+    public IProductOrderRepository _productOrderRepository
+    {
+        get
+        {
+            return productOrderRepository = productOrderRepository ?? new ProductOrderRepository(_context);
+        }
+    }
+
     public async Task Commit()
     {
-       await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
     public void Dispose()
     {

@@ -20,10 +20,10 @@ public class Product
     public long CategoryId { get; set; }
     [JsonIgnore]
     public Category? Category { get; set; }
-    public ICollection<Order> Order { get; set; }
+    public ICollection<ProductOrder> Order { get; set; }
 
     public Product()
     {
-        Order = new List<Order>();
+        Order = new List<ProductOrder>();
     }
 }

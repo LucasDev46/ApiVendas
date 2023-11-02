@@ -32,7 +32,7 @@ public class CustomerService : ICustomerService
     }
     public async Task<IEnumerable<CustomerOrderDTO>> GetCustomerOrders()
     {
-        var result = await _unitOfWork._customerRepository.SelectAll().Include(p => p.Order).ThenInclude(p => p.Products).ToListAsync();
+        var result = await _unitOfWork._customerRepository.SelectAll().Include(p => p.Order).ThenInclude(p => p.ProductOrder).ToListAsync();
         var clienteDto = _mapper.Map<List<CustomerOrderDTO>>(result);
         return clienteDto;
     }
@@ -51,7 +51,7 @@ public class CustomerService : ICustomerService
     public async Task<CustomerDTO> GetCustomerById(long id)
     {
         var result = await _unitOfWork._customerRepository.SelectByQuery(p => p.Id == id);
-       
+
         if (result is null)
         {
             return null;
@@ -62,15 +62,15 @@ public class CustomerService : ICustomerService
     public async Task<CustomerDTO> UpdateCustomer(long id, CustomerDTO entity)
     {
         var client = await _unitOfWork._customerRepository.SelectByQuery(p => p.Id == id);
-      
-        if(client is null)
+
+        if (client is null)
         {
             return null;
         }
 
         client.UserName = entity.Name;
         client.CNPJ = entity.CNPJ;
-       
+
         _unitOfWork._customerRepository.Update(client);
         await _unitOfWork.Commit();
         return entity;
